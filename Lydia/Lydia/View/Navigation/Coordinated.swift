@@ -25,7 +25,10 @@ final class MainCoordinator: Coordinator {
     }
 
     func displayUsersView() {
-        let viewController = UsersViewController()
+        let repository = RandomUsersFetcherRepositoryImplementation()
+        let useCase = RandomUsersUseCase(randomUsersRepository: repository)
+        let viewModel = RandomUsersViewModel(useCase: useCase)
+        let viewController = UsersViewController(viewModel: viewModel)
         viewController.bindWith(coordinator: self)
         navigationController.pushViewController(viewController, animated: false)
     }

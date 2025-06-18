@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AB9F6BB82E020BA200D2FE45 /* APICaller in Frameworks */ = {isa = PBXBuildFile; productRef = AB9F6BB72E020BA200D2FE45 /* APICaller */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AB9F6B302E00C5C500D2FE45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9F6BB82E020BA200D2FE45 /* APICaller in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +75,7 @@
 			children = (
 				AB9F6B1B2E00C5C400D2FE45 /* Lydia */,
 				AB9F6B322E00C5C500D2FE45 /* LydiaTests */,
+				AB9F6BB62E020BA200D2FE45 /* Frameworks */,
 				AB9F6B1A2E00C5C400D2FE45 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -81,6 +87,13 @@
 				AB9F6B2F2E00C5C500D2FE45 /* LydiaTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AB9F6BB62E020BA200D2FE45 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +116,7 @@
 			);
 			name = Lydia;
 			packageProductDependencies = (
+				AB9F6BB72E020BA200D2FE45 /* APICaller */,
 			);
 			productName = Lydia;
 			productReference = AB9F6B192E00C5C400D2FE45 /* Lydia.app */;
@@ -159,6 +173,9 @@
 			);
 			mainGroup = AB9F6B102E00C5C400D2FE45;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AB9F6BB52E02090700D2FE45 /* XCLocalSwiftPackageReference "../APICaller" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AB9F6B1A2E00C5C400D2FE45 /* Products */;
 			projectDirPath = "";
@@ -451,6 +468,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		AB9F6BB52E02090700D2FE45 /* XCLocalSwiftPackageReference "../APICaller" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../APICaller;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AB9F6BB72E020BA200D2FE45 /* APICaller */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB9F6BB52E02090700D2FE45 /* XCLocalSwiftPackageReference "../APICaller" */;
+			productName = APICaller;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AB9F6B112E00C5C400D2FE45 /* Project object */;
 }

@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         coordinator = MainCoordinator(navigationController: navigationController)
         self.window?.rootViewController = navigationController
+        self.window?.backgroundColor = .white
         self.window?.makeKeyAndVisible()
         coordinator?.displayUsersView()
     }
