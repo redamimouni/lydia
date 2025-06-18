@@ -8,20 +8,20 @@
 import Foundation
 
 // MARK: - RandomUserDTO
-struct RandomUserDTO: Decodable {
+struct RandomUserDTO: Codable {
     let results: [UserDTO]
     let info: InfoDTO
 }
 
 // MARK: - InfoDTO
-struct InfoDTO: Decodable {
+struct InfoDTO: Codable {
     let seed: String
     let results, page: Int
     let version: String
 }
 
 // MARK: - UserDTO
-struct UserDTO: Decodable {
+struct UserDTO: Codable {
     let gender: String
     let name: NameDTO
     let location: LocationDTO
@@ -35,18 +35,18 @@ struct UserDTO: Decodable {
 }
 
 // MARK: - DobDTO
-struct DobDTO: Decodable {
+struct DobDTO: Codable {
     let date: String
     let age: Int
 }
 
 // MARK: - IdentifierDTO
-struct IdentifierDTO: Decodable {
+struct IdentifierDTO: Codable {
     let name, value: String?
 }
 
 // MARK: - LocationDTO
-struct LocationDTO: Decodable {
+struct LocationDTO: Codable {
     let street: StreetDTO
     let city, state, country: String
     let coordinates: CoordinatesDTO
@@ -54,33 +54,33 @@ struct LocationDTO: Decodable {
 }
 
 // MARK: - CoordinatesDTO
-struct CoordinatesDTO: Decodable {
+struct CoordinatesDTO: Codable {
     let latitude, longitude: String
 }
 
 // MARK: - StreetDTO
-struct StreetDTO: Decodable {
+struct StreetDTO: Codable {
     let number: Int
     let name: String
 }
 
 // MARK: - TimezoneDTO
-struct TimezoneDTO: Decodable {
+struct TimezoneDTO: Codable {
     let offset, description: String
 }
 
 // MARK: - LoginDTO
-struct LoginDTO: Decodable {
+struct LoginDTO: Codable {
     let uuid, username, password, salt: String
     let md5, sha1, sha256: String
 }
 
 // MARK: - NameDTO
-struct NameDTO: Decodable {
+struct NameDTO: Codable {
     let title, first, last: String
 }
 
 // MARK: - PictureDTO
-struct PictureDTO: Decodable {
+struct PictureDTO: Codable {
     let large, medium, thumbnail: String?
 }

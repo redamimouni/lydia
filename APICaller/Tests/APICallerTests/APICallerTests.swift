@@ -68,13 +68,13 @@ final class APICallerTests: XCTestCase {
 
 @MainActor
 final class URLSessionMock: URLSessionProtocol {
+    var stubbedFetchResult: (Data, URLResponse)?
+
     func dataWithFallback(with request: URLRequest) async throws -> (Data, URLResponse) {
         guard let result = stubbedFetchResult else { throw CustomError.httpRequestError }
         return result
     }
     
-    var stubbedFetchResult: (Data, URLResponse)?
-
     func data(with request: URLRequest) async throws -> (Data, URLResponse) {
         guard let result = stubbedFetchResult else { throw CustomError.httpRequestError }
         return result

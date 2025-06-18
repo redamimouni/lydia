@@ -23,6 +23,7 @@
 /* Begin PBXFileReference section */
 		AB9F6B192E00C5C400D2FE45 /* Lydia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lydia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB9F6B2F2E00C5C500D2FE45 /* LydiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LydiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABCAD4222E03611D00E07D96 /* Testing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Testing.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/Testing.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -92,6 +93,7 @@
 		AB9F6BB62E020BA200D2FE45 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ABCAD4222E03611D00E07D96 /* Testing.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

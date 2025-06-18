@@ -6,9 +6,9 @@
 //
 
 final class RandomUsersUseCase {
-    private let randomUsersRepository: RandomUsersFetcherRepository
+    private let randomUsersRepository: any RandomUsersFetcherRepository
     
-    init(randomUsersRepository: RandomUsersFetcherRepository) {
+    init(randomUsersRepository: some RandomUsersFetcherRepository) {
         self.randomUsersRepository = randomUsersRepository
     }
     
