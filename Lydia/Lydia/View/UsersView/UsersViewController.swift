@@ -14,6 +14,7 @@ final class UsersViewController: UIViewController, Coordinated {
     // MARK: - Subviews
 
     private lazy var collectionView: UICollectionView = createCollectionView()
+    private let refreshControl = UIRefreshControl()
     
     // MARK: - Dependencies
 
@@ -39,6 +40,12 @@ final class UsersViewController: UIViewController, Coordinated {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupInterface()
+        fetchData()
+    }
+    
+    // MARK: - Private
+    
+    private func fetchData() {
         Task {
             do {
                 randomUsers = try await viewModel.fetchRandomUsers()
@@ -49,8 +56,6 @@ final class UsersViewController: UIViewController, Coordinated {
         }
     }
     
-    // MARK: - Private
-    
     private func createCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -60,7 +65,9 @@ final class UsersViewController: UIViewController, Coordinated {
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(UserCollectionViewCell.self, forCellWithReuseIdentifier: "UserCell")
+        collectionView.register(UserCollectionViewCell.self, forCellWithReuseIdentifier: UserCollectionViewCell.reuseIdentifier)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
         return collectionView
     }
     
@@ -73,5 +80,11 @@ final class UsersViewController: UIViewController, Coordinated {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    @objc
+    private func refreshData() {
+        fetchData()
+        refreshControl.endRefreshing()
     }
 }

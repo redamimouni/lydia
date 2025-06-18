@@ -17,7 +17,7 @@ extension UsersViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserCell", for: indexPath) as? UserCollectionViewCell ?? UserCollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserCollectionViewCell.reuseIdentifier, for: indexPath) as? UserCollectionViewCell ?? UserCollectionViewCell()
         let user = randomUsers[indexPath.item]
         cell.configure(with: user)
         return cell
