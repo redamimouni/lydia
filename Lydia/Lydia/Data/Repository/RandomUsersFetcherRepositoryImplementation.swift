@@ -15,9 +15,9 @@ final class RandomUsersFetcherRepositoryImplementation: RandomUsersFetcherReposi
         self.apiCaller = apiCaller
     }
     
-    func fetchRandomUsers(limit: Int) async throws -> [UserDTO] {
+    func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO] {
         do {
-            let request = URLRequest.request(from: APIEndpoints.listing(with: limit))
+            let request = URLRequest.request(from: APIEndpoints.listing(with: limit, page: page))
             let dto: RandomUserDTO = try await self.apiCaller.perform(request, fallbackCache: true)
             return dto.results
         } catch is CustomError {

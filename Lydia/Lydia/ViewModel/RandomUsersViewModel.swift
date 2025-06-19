@@ -12,7 +12,7 @@ final class RandomUsersViewModel {
         self.useCase = useCase
     }
 
-    func fetchRandomUsers() async throws -> [RandomUser] {
-        return try await useCase.fetchRandomUsers()
+    func fetchRandomUsers(page: Int) async throws -> [RandomUser] {
+        return try await useCase.fetchRandomUsers(page: page)
     }
 }

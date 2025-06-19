@@ -12,8 +12,8 @@ final class RandomUsersUseCase {
         self.randomUsersRepository = randomUsersRepository
     }
     
-    func fetchRandomUsers() async throws -> [RandomUser] {
-        try await randomUsersRepository.fetchRandomUsers(limit: 10).map {
+    func fetchRandomUsers(page: Int) async throws -> [RandomUser] {
+        try await randomUsersRepository.fetchRandomUsers(limit: 20, page: page).map {
             $0.toDomain()
         }
     }

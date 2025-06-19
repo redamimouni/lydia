@@ -20,7 +20,7 @@ struct RandomUsersFetcherRepositoryTests {
             info: .init(seed: "seed", results: 12, page: 4, version: "version")
         )
         let repo = RandomUsersFetcherRepositoryImplementation(apiCaller: MockAPICaller(scenario: .success(try JSONEncoder().encode(dto))))
-        let users = try await repo.fetchRandomUsers(limit: 1)
+        let users = try await repo.fetchRandomUsers(limit: 1, page: 1)
 
         #expect(users.count == 1)
         #expect(users.first?.name.first == "Reda")
@@ -31,7 +31,7 @@ struct RandomUsersFetcherRepositoryTests {
         let repo = RandomUsersFetcherRepositoryImplementation(apiCaller: MockAPICaller(scenario: .failure(CustomError.parsingError)))
 
         do {
-            _ = try await repo.fetchRandomUsers(limit: 1)
+            _ = try await repo.fetchRandomUsers(limit: 1, page: 1)
             #expect(Bool(false), "Expected CustomError.parsingError")
         } catch let error as CustomError {
             #expect(error == .parsingError)
@@ -42,10 +42,10 @@ struct RandomUsersFetcherRepositoryTests {
     
     @Test("fetchRandomUsers throws generic fetch error on unexpected failure")
     func testUnknownError() async throws {
-        let repo = RandomUsersFetcherRepositoryImplementation(apiCaller: MockAPICaller(scenario: .failure(Unexpected())))
+        let repo = RandomUsersFetcherRepositoryImplementation(apiCaller: MockAPICaller(scenario: .failure(URLError.init(.unknown))))
 
         do {
-            _ = try await repo.fetchRandomUsers(limit: 1)
+            _ = try await repo.fetchRandomUsers(limit: 1, page: 1)
             #expect(Bool(false), "Expected CustomError.errorDataFetch")
         } catch let error as CustomError {
             #expect(error == .errorDataFetch)
@@ -54,5 +54,3 @@ struct RandomUsersFetcherRepositoryTests {
         }
     }
 }
-
-private struct Unexpected: Error {}

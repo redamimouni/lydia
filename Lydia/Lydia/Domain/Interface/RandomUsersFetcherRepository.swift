@@ -6,5 +6,5 @@
 //
 
 protocol RandomUsersFetcherRepository {
-    func fetchRandomUsers(limit: Int) async throws -> [UserDTO]
+    func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO]
 }

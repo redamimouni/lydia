@@ -6,6 +6,7 @@
 //
 
 import APICaller
+@testable import Lydia
 import Foundation
 
 public final class MockAPICaller: APICallerProtocol {
@@ -32,5 +33,17 @@ public final class MockAPICaller: APICallerProtocol {
         case .failure(let error):
             throw error
         }
+    }
+}
+
+public final class MockRandomUsersFetcherRepository: RandomUsersFetcherRepository {
+    let result: Result<[UserDTO], Error>
+    
+    init(result: Result<[UserDTO], Error>) {
+        self.result = result
+    }
+
+    public func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO] {
+        try result.get()
     }
 }
