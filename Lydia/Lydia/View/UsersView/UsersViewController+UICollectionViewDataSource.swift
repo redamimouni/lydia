@@ -9,16 +9,12 @@ import UIKit
 
 extension UsersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return randomUsers.count
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return viewModel.users.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserCollectionViewCell.reuseIdentifier, for: indexPath) as? UserCollectionViewCell ?? UserCollectionViewCell()
-        let user = randomUsers[indexPath.item]
+        let user = viewModel.users[indexPath.item]
         cell.configure(with: user)
         return cell
     }

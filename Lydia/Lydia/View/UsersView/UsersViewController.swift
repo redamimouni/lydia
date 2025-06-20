@@ -8,10 +8,8 @@
 import UIKit
 
 final class UsersViewController: UIViewController, Coordinated {
-    private let viewModel: RandomUsersViewModel
-    private var isLoading = false
+    internal let viewModel: RandomUsersViewModel
     internal var currentPage = 1
-    internal var randomUsers: [RandomUser] = []
     
     // MARK: - Subviews
 
@@ -47,21 +45,11 @@ final class UsersViewController: UIViewController, Coordinated {
     
     // MARK: - Internal
     
-    internal func fetchData(isPagination: Bool = false) {
-        guard isLoading == false else { return }
-        isLoading = true
-        defer { isLoading = false }
+    internal func fetchData() {
+        guard viewModel.isLoading == false else { return }
         Task {
-            do {
-                if isPagination {
-                    randomUsers.append(contentsOf: try await viewModel.fetchRandomUsers(page: currentPage))
-                } else {
-                    randomUsers = try await viewModel.fetchRandomUsers(page: currentPage)
-                }
-                collectionView.reloadData()
-            } catch {
-                print("Error: \(error)")
-            }
+            await viewModel.fetchRandomUsers(page: currentPage)
+            collectionView.reloadData()
         }
     }
     

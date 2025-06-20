@@ -9,7 +9,7 @@ import UIKit
 
 extension UsersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let user = randomUsers[indexPath.row]
+        let user = viewModel.users[indexPath.row]
         coordinator?.displayDetailView(for: user)
     }
 
@@ -20,7 +20,7 @@ extension UsersViewController: UICollectionViewDelegate {
 
         if offsetY > contentHeight - height * 1.5 {
             currentPage += 1
-            fetchData(isPagination: true)
+            fetchData()
         }
     }
 }
