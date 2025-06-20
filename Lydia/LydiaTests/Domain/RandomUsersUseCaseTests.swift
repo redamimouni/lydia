@@ -15,7 +15,7 @@ struct RandomUsersUseCaseTests {
     @Test("fetchRandomUsers returns mapped domain users on success")
     func testSuccess() async throws {
         let dto = UserDTO.mock
-        let mockRepo = MockRandomUsersFetcherRepository(result: .success([dto]))
+        let mockRepo = MockRandomUsersFetcherRepository(resultUsers: .success([dto]), resultData: .success(.init()))
         let useCase = RandomUsersUseCase(randomUsersRepository: mockRepo)
 
         let users = try await useCase.fetchRandomUsers(page: 1)
@@ -28,7 +28,10 @@ struct RandomUsersUseCaseTests {
 
     @Test("fetchRandomUsers throws on failure")
     func testFailure() async throws {
-        let mockRepo = MockRandomUsersFetcherRepository(result: .failure(NSError(domain: "domain", code: 400, userInfo: nil)))
+        let mockRepo = MockRandomUsersFetcherRepository(
+            resultUsers: .failure(NSError(domain: "domain", code: 400, userInfo: nil)),
+            resultData: .failure(NSError(domain: "domain", code: 400, userInfo: nil))
+        )
         let useCase = RandomUsersUseCase(randomUsersRepository: mockRepo)
 
         do {

@@ -20,7 +20,7 @@ final class UsersViewController: UIViewController, Coordinated {
     
     // MARK: - Dependencies
 
-    private weak var coordinator: MainCoordinator?
+    internal weak var coordinator: MainCoordinator?
 
     func bindWith(coordinator: MainCoordinator) {
         self.coordinator = coordinator

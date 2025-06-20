@@ -15,6 +15,7 @@ protocol Coordinator {
     var navigationController: UINavigationController { get set }
 
     func displayUsersView()
+    func displayDetailView(for user: RandomUser)
 }
 
 final class MainCoordinator: Coordinator {
@@ -31,5 +32,10 @@ final class MainCoordinator: Coordinator {
         let viewController = UsersViewController(viewModel: viewModel)
         viewController.bindWith(coordinator: self)
         navigationController.pushViewController(viewController, animated: false)
+    }
+    
+    func displayDetailView(for user: RandomUser) {
+        let viewController = DetailUserViewController(viewModel: DetailUserViewModel(user: user))
+        navigationController.present(viewController, animated: true)
     }
 }

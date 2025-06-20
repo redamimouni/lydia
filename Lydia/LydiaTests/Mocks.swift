@@ -37,13 +37,19 @@ public final class MockAPICaller: APICallerProtocol {
 }
 
 public final class MockRandomUsersFetcherRepository: RandomUsersFetcherRepository {
-    let result: Result<[UserDTO], Error>
+    let resultUsers: Result<[UserDTO], Error>
+    let resultData: Result<Data, Error>
     
-    init(result: Result<[UserDTO], Error>) {
-        self.result = result
+    init(resultUsers: Result<[UserDTO], Error>, resultData: Result<Data, Error>) {
+        self.resultUsers = resultUsers
+        self.resultData = resultData
     }
 
     public func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO] {
-        try result.get()
+        try resultUsers.get()
+    }
+    
+    public func fetchImage(url: String?) async throws -> Data? {
+        try resultData.get()
     }
 }

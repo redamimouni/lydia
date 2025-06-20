@@ -9,7 +9,8 @@ import UIKit
 
 extension UsersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let user = randomUsers[indexPath.row]
+        coordinator?.displayDetailView(for: user)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
