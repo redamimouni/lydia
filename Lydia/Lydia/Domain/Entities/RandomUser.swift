@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RandomUser {
+struct RandomUser: Equatable {
     let gender: String
     let fullName: String
     let address: String

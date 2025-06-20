@@ -7,7 +7,11 @@
 
 import APICaller
 
-final class RandomUsersUseCase {
+protocol RandomUsersUseCaseProtocol {
+    func fetchRandomUsers(page: Int) async throws -> [RandomUser]
+}
+
+final class RandomUsersUseCase: RandomUsersUseCaseProtocol {
     private let randomUsersRepository: any RandomUsersFetcherRepository
     
     init(randomUsersRepository: some RandomUsersFetcherRepository) {

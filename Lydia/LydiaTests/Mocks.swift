@@ -8,21 +8,21 @@
 import APICaller
 @testable import Lydia
 import Foundation
+ 
+struct MockAPICaller: APICallerProtocol {
 
-public final class MockAPICaller: APICallerProtocol {
-
-    public enum Scenario : Sendable{
+    enum Scenario : Sendable{
         case success(Data)
         case failure(Error)
     }
 
-    public let scenario: Scenario
+    let scenario: Scenario
 
-    public init(scenario: Scenario) {
+    init(scenario: Scenario) {
         self.scenario = scenario
     }
 
-    public func perform<T>(_ request: URLRequest?, fallbackCache: Bool) async throws -> T where T : Decodable {
+    func perform<T>(_ request: URLRequest?, fallbackCache: Bool) async throws -> T where T : Decodable {
         switch scenario {
         case .success(let data):
             do {
@@ -36,20 +36,27 @@ public final class MockAPICaller: APICallerProtocol {
     }
 }
 
-public final class MockRandomUsersFetcherRepository: RandomUsersFetcherRepository {
+struct MockRandomUsersFetcherRepository: RandomUsersFetcherRepository {
     let resultUsers: Result<[UserDTO], Error>
     let resultData: Result<Data, Error>
-    
-    init(resultUsers: Result<[UserDTO], Error>, resultData: Result<Data, Error>) {
-        self.resultUsers = resultUsers
-        self.resultData = resultData
-    }
 
-    public func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO] {
+    func fetchRandomUsers(limit: Int, page: Int) async throws -> [UserDTO] {
         try resultUsers.get()
     }
     
-    public func fetchImage(url: String?) async throws -> Data? {
+    func fetchImage(url: String?) async throws -> Data? {
         try resultData.get()
+    }
+}
+
+final class MockRandomUsersUseCase: RandomUsersUseCaseProtocol {
+    var resultsByPage: [Int: [RandomUser]] = [:]
+    var errorsByPage: [Int: Error] = [:]
+
+    func fetchRandomUsers(page: Int) async throws -> [RandomUser] {
+        if let error = errorsByPage[page] {
+            throw error
+        }
+        return resultsByPage[page] ?? []
     }
 }

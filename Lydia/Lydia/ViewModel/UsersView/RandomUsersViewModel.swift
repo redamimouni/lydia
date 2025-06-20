@@ -6,13 +6,13 @@
 //
 
 final class RandomUsersViewModel {
-    private let useCase: RandomUsersUseCase
+    private let useCase: any RandomUsersUseCaseProtocol
 
     private(set) var users: [RandomUser] = []
     private(set) var isLoading = false
     private(set) var error: Error?
 
-    init(useCase: RandomUsersUseCase) {
+    init(useCase: some RandomUsersUseCaseProtocol) {
         self.useCase = useCase
     }
 
@@ -25,6 +25,7 @@ final class RandomUsersViewModel {
         do {
             let newUsers = try await useCase.fetchRandomUsers(page: page)
             users += newUsers
+            print(users)
         } catch {
             self.error = error
         }
