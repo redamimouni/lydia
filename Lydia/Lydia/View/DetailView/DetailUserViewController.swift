@@ -13,8 +13,10 @@ final class DetailUserViewController: UIViewController {
     
     // MARK: - UI
     
-    private let imageView = UIImageView()
-    private let stack = UIStackView()
+    private let scrollView = UIScrollView()
+    private let contentStack = UIStackView()
+    
+    // MARK: - Init
     
     init(viewModel: DetailUserViewModel) {
         self.viewModel = viewModel
@@ -25,76 +27,90 @@ final class DetailUserViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         setupInterface()
-        setupLayout()
-        loadImageIfNeeded(pictureData: viewModel.user.picture)
     }
     
     // MARK: - Private
     
     private func setupInterface() {
-        let user = viewModel.user
-        view.backgroundColor = .systemBackground
-        stack.axis = .vertical
-        stack.spacing = 16
-        stack.alignment = .leading
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        [
-            makeLabel("Sexe : \(user.gender.capitalized)"),
-            makeLabel("Nom : \(user.fullName)"),
-            makeLabel("Adresse : \(user.address)"),
-            makeLabel("Email : \(user.email)"),
-            makeLabel("Téléphone : \(user.phone)")
-        ].forEach {
-            stack.addArrangedSubview($0)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.axis = .vertical
+        contentStack.spacing = 20
+        contentStack.alignment = .center
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentStack)
+
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            contentStack.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 32),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -32),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 24),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -24),
+            contentStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -48)
+        ])
+
+        if let picture = viewModel.user.picture {
+            let imageView = UIImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.cornerRadius = 60
+            imageView.clipsToBounds = true
+            imageView.backgroundColor = .tertiarySystemFill
+            imageView.image = UIImage(data: picture) ?? UIImage(systemName: "person.crop.circle")
+            NSLayoutConstraint.activate([
+                imageView.widthAnchor.constraint(equalToConstant: 128),
+                imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+            ])
+            imageView.setContentHuggingPriority(.required, for: .vertical)
+            imageView.setContentHuggingPriority(.required, for: .horizontal)
+            contentStack.addArrangedSubview(imageView)
         }
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 60
-        imageView.clipsToBounds = true
+        let nameLabel = UILabel()
+        nameLabel.text = viewModel.user.fullName
+        nameLabel.font = UIFont.preferredFont(forTextStyle: .title1)
+        nameLabel.textAlignment = .center
+        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.numberOfLines = 0
+        contentStack.addArrangedSubview(nameLabel)
+
+        let genderView = infoRow(icon: "⚤", text: viewModel.user.gender.capitalized)
+        let addressView = infoRow(icon: "🗺️", text: viewModel.user.address)
+        let emailView = infoRow(icon: "📩", text: viewModel.user.email)
+        let phoneView = infoRow(icon: "☎", text: viewModel.user.phone)
+
+        contentStack.addArrangedSubview(genderView)
+        contentStack.addArrangedSubview(addressView)
+        contentStack.addArrangedSubview(emailView)
+        contentStack.addArrangedSubview(phoneView)
     }
     
-    private func setupLayout() {
-        let scroll = UIScrollView()
-        scroll.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scroll)
-        scroll.addSubview(imageView)
-        scroll.addSubview(stack)
-        
-        NSLayoutConstraint.activate([
-            scroll.topAnchor.constraint(equalTo: view.topAnchor),
-            scroll.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scroll.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scroll.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            imageView.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 24),
-            imageView.centerXAnchor.constraint(equalTo: scroll.centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 120),
-            imageView.heightAnchor.constraint(equalToConstant: 120),
-            
-            stack.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 24),
-            stack.leadingAnchor.constraint(equalTo: scroll.leadingAnchor, constant: 24),
-            stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: -24),
-            stack.bottomAnchor.constraint(equalTo: scroll.bottomAnchor, constant: -40),
-            stack.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -48) // to keep alignment
-        ])
-    }
-    
-    private func makeLabel(_ text: String) -> UILabel {
+    private func infoRow(icon: String, text: String) -> UIStackView {
+        let labelIcon = UILabel()
+        labelIcon.text = icon
+
         let label = UILabel()
         label.text = text
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }
-    
-    private func loadImageIfNeeded(pictureData: Data?) {
-        if let pictureData,
-           let image = UIImage(data: pictureData) {
-            imageView.image = image
-        }
+
+        let stack = UIStackView(arrangedSubviews: [labelIcon, label])
+        stack.axis = .horizontal
+        stack.spacing = 12
+        stack.alignment = .center
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
     }
 }
