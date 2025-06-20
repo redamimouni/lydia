@@ -48,9 +48,3 @@ Lydia/
 - Xcode 15+ (ou version compatible)
 - iOS 15+ (ou version compatible)
 - Swift 5+
-- [Ajoutez votre site web]
-
-## Remerciements
-
-- [Ajoutez toute bibliothèque ou framework tiers utilisé]
-- [Ajoutez toute autre ressource ou personne qui a aidé dans le développement]
