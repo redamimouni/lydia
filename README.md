@@ -1,6 +1,7 @@
 ## Architecture Technique
 
-Lydia est une application iOS qui suit l'architecture MVVM (Model-View-ViewModel) avec une séparation claire des responsabilités.
+Test technique pour Lydia Solutions. 
+[ios-lydia-technical-test.pdf](https://github.com/user-attachments/files/20845404/ios-lydia-technical-test.pdf)
 
 ### Structure du Projet
 
